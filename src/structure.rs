@@ -4,6 +4,7 @@ use serde::{Deserialize, Serialize};
 
 /// Represents a school
 #[derive(Serialize, Deserialize, Debug)]
+#[allow(non_snake_case)]
 pub struct School {
     /// Human readable name of school
     pub name: String,
@@ -13,6 +14,7 @@ pub struct School {
 
 /// Represents a class
 #[derive(Serialize, Deserialize, Debug)]
+#[allow(non_snake_case)]
 pub struct Class {
     /// Human readable name of class
     pub className: String,
@@ -22,6 +24,7 @@ pub struct Class {
 
 /// Represents a schedule week
 #[derive(Serialize, Deserialize, Debug)]
+#[allow(non_snake_case)]
 pub struct ScheduleWeek {
     /// Human readable name of class
     pub weekNr: String,
@@ -56,4 +59,23 @@ pub struct ScheduleClass {
     pub name: String,
     /// The name of the teacher for the class
     pub teacher: String,
+}
+
+/// The response returned from the add_user method
+#[derive(Debug)]
+pub struct AddUserResponse {
+    /// The status code from the request
+    pub code: reqwest::StatusCode,
+    /// The response from the API
+    pub response: String,
+}
+
+impl AddUserResponse {
+    /// Used to create a new AddUserResponse from a reqwest blocking response
+    pub fn new(response: reqwest::blocking::Response) -> Result<AddUserResponse, reqwest::Error> {
+        return Ok(AddUserResponse {
+            code: response.status(),
+            response: response.text()?,
+        });
+    }
 }
