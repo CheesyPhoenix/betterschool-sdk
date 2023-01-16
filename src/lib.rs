@@ -16,23 +16,20 @@
 #[cfg(test)]
 mod tests;
 
-use serde::{Deserialize, Serialize};
+pub mod structure;
+use structure::{Class, ScheduleWeek, School};
 
 /// The main container for the sdk
 pub struct BetterSchool {
     api_addr: String,
 }
 
-/// Represents a school
-#[derive(Serialize, Deserialize, Debug)]
-pub struct School {
-    pub name: String,
-    pub schoolID: String,
-}
-
+/// An error type which implements both the errors from reqwest and serde_json
 #[derive(Debug)]
 pub enum Error {
+    /// A reqwest error
     ReqwestErr(reqwest::Error),
+    /// A serde_json error
     SerdeJsonErr(serde_json::Error),
 }
 impl From<reqwest::Error> for Error {
@@ -60,6 +57,39 @@ impl BetterSchool {
             reqwest::blocking::get(self.api_addr.clone() + &String::from("/schools"))?.text()?;
 
         let parsed: Vec<School> = serde_json::from_str(&body)?;
+
+        return Ok(parsed);
+    }
+
+    /// Used to get the availible classes of a school
+    pub fn get_classes<T: Into<String>>(&self, school_id: T) -> Result<Vec<Class>, Error> {
+        let body = reqwest::blocking::get(format!(
+            "{}/school/{}/classes",
+            self.api_addr,
+            school_id.into()
+        ))?
+        .text()?;
+
+        let parsed: Vec<Class> = serde_json::from_str(&body)?;
+
+        return Ok(parsed);
+    }
+
+    /// Used to get the schedule for a given class in a give school
+    pub fn get_schedule<T: Into<String>>(
+        &self,
+        school_id: T,
+        class_id: T,
+    ) -> Result<Vec<ScheduleWeek>, Error> {
+        let body = reqwest::blocking::get(format!(
+            "{}/school/{}/class/{}",
+            self.api_addr,
+            school_id.into(),
+            class_id.into()
+        ))?
+        .text()?;
+
+        let parsed: Vec<ScheduleWeek> = serde_json::from_str(&body)?;
 
         return Ok(parsed);
     }
