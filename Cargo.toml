@@ -1,6 +1,6 @@
 [package]
-name = "betterschool_sdk"
-version = "1.0.0"
+name = "betterschool-sdk"
+version = "1.0.1"
 edition = "2021"
 license = "CC-BY-SA-4.0"
 description = "The official BetterSchool rust sdk"

@@ -6,13 +6,13 @@ This is the official rust BetterSchool SDK. It is a fully typed wrapper for inte
 
 ```toml
 [dependecies]
-betterschool_sdk = "1.0.0"
+betterschool-sdk = "1.0.0"
 ```
 
 or
 
 ```
-cargo add betterschool_sdk
+cargo add betterschool-sdk
 ```
 
 <hr>
