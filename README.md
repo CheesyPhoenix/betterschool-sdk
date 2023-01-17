@@ -6,7 +6,7 @@ This is the official rust BetterSchool SDK. It is a fully typed wrapper for inte
 
 ```toml
 [dependecies]
-betterschool-sdk = "1.0.1"
+betterschool-sdk = "1.0.3"
 ```
 
 or
