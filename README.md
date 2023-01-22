@@ -76,7 +76,7 @@ println!("{:?}", res)
 
 In this case the response from the API would look like this:
 
-```json
+```
 AddUserResponse { code: 401, response: "incorrect credentials" }
 ```
 
